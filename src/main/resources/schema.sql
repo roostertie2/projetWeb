@@ -1,10 +1,10 @@
-CREATE TABLE User (
+CREATE TABLE Users (
     userID INT AUTO_INCREMENT PRIMARY KEY,
     LastName VARCHAR(255) NOT NULL,
     FirstName VARCHAR(255) NOT NULL,
     Telephone VARCHAR(20) NOT NULL,
     DateOfBirth DATE,
-    Gender ENUM('Male', 'Female', 'Other'),
+    Gender VARCHAR(20) NOT NULL CHECK (Gender IN ('Male', 'Female', 'Other')),
     Email VARCHAR(255) UNIQUE NOT NULL,
     HashedPassword VARCHAR(255) NOT NULL, -- Strong (At least 8 characters with 1 uppercase, lowercase, digit, special character) and must be hashed during registration.
     RegistrationDate DATETIME NOT NULL,
@@ -14,8 +14,8 @@ CREATE TABLE User (
     EmergencyContact VARCHAR(255),
     ProfilePhoto VARCHAR(255),
     NotificationPreferences ENUM('Email', 'SMS', 'Push-Notification'),
-    IsActive VARCHAR(10), -- TRUE or FALSE
-    role ENUM('Driver', 'Passenger') NOT NULL,
+    IsActive VARCHAR(10),
+    Role VARCHAR(20) NOT NULL CHECK (role IN ('Driver', 'Passenger'))
 );
 
 
@@ -29,7 +29,7 @@ CREATE TABLE Cars (
     LicensePlate VARCHAR(20) NOT NULL,
     SerialNumber VARCHAR(50) NOT NULL, -- Serial number or identification number (NIV)
     NumberOfSeats INT NOT NULL,
-    FOREIGN KEY (DriverID) REFERENCES User(userID)
+    FOREIGN KEY (DriverID) REFERENCES Users(userID)
 );
 
 CREATE TABLE DaysOfWeek (
@@ -45,7 +45,7 @@ CREATE TABLE Trajets (
     DesiredArrivalTime DATETIME,
     UserID INT NOT NULL,
     DayID INT NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES User(userID),
+    FOREIGN KEY (UserID) REFERENCES Users(userID),
     FOREIGN KEY (DayID) REFERENCES DaysOfWeek(DayID)
 );
 
@@ -57,7 +57,7 @@ CREATE TABLE Journeys (
     Price DECIMAL(10, 2) NOT NULL,
     JourneyCreationDate DATETIME NOT NULL,
     IsActive VARCHAR(10), -- TRUE or FALSE
-    FOREIGN KEY (DriverID) REFERENCES User(userID),
+    FOREIGN KEY (DriverID) REFERENCES Users(userID),
     FOREIGN KEY (TrajetID) REFERENCES Trajets(TrajetID)
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE Reservations (
     JourneyID INT NOT NULL,
     ReservationDate DATETIME NOT NULL,
     ReservationStatus ENUM('Confirmed', 'Pending', 'Cancelled') NOT NULL,
-    FOREIGN KEY (PassengerID) REFERENCES User(userID),
+    FOREIGN KEY (PassengerID) REFERENCES Users(userID),
     FOREIGN KEY (JourneyID) REFERENCES Journeys(journeyID)
 );
 
@@ -78,6 +78,6 @@ CREATE TABLE Ratings (
     Score INT NOT NULL,
     RatingDate DATETIME NOT NULL,
     Comment TEXT,
-    FOREIGN KEY (RaterID) REFERENCES User(userID),
-    FOREIGN KEY (RatedID) REFERENCES User(userID)
+    FOREIGN KEY (RaterID) REFERENCES Users(userID),
+    FOREIGN KEY (RatedID) REFERENCES Users(userID)
 );
