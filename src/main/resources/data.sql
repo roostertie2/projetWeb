@@ -1,10 +1,56 @@
 -- Insertion de données dans la table User
 INSERT INTO Users (LastName, FirstName, Telephone, DateOfBirth, Gender, Email, HashedPassword, RegistrationDate, PreferredLanguage, Profession, HobbiesInterests, EmergencyContact, ProfilePhoto, NotificationPreferences, IsActive, role)
 VALUES
-    ('Doe', 'John', '1234567890', '1990-01-01', 'Male', 'john@example.com', 'hashedpass1', CURRENT_TIMESTAMP(), 'English', 'Engineer', 'Reading, hiking', 'Jane Doe (sister)', 'photo1.jpg', 'Email', 'TRUE', 'Driver'),
-    ('Smith', 'Alice', '9876543210', '1985-05-15', 'Female', 'alice@example.com', 'hashedpass2', CURRENT_TIMESTAMP(), 'English', 'Teacher', 'Music, painting', 'Bob Smith (brother)', 'photo2.jpg', 'SMS', 'TRUE', 'Passenger'),
-    ('Johnson', 'Michael', '5551234567', '1982-09-20', 'Male', 'michael@example.com', 'hashedpass3', CURRENT_TIMESTAMP(), 'English', 'Doctor', 'Cooking, traveling', 'Mary Johnson (wife)', 'photo3.jpg', 'Push-Notification', 'TRUE', 'Driver');
-
+    ('Doe', 'John', '1234567890', '1990-01-01', 'Male', 'john1@example.com', 'hashedpass1', NOW(), 'English', 'Engineer', 'Reading, hiking', 'Jane Doe (sister)', 'photo1.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Smith', 'Alice', '9876543210', '1985-05-15', 'Female', 'alice2@example.com', 'hashedpass2', NOW(), 'English', 'Teacher', 'Music, painting', 'Bob Smith (brother)', 'photo2.jpg', 'SMS', 'TRUE', 'Passenger'),
+    ('Johnson', 'Michael', '5551234567', '1982-09-20', 'Male', 'michael3@example.com', 'hashedpass3', NOW(), 'English', 'Doctor', 'Cooking, traveling', 'Mary Johnson (wife)', 'photo3.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Brown', 'Emily', '4447890123', '1995-03-10', 'Female', 'emily4@example.com', 'hashedpass4', NOW(), 'French', 'Artist', 'Photography, writing', 'David Brown (father)', 'photo4.jpg', 'Email', 'TRUE', 'Passenger'),
+    ('Garcia', 'Daniel', '3334567890', '1988-11-28', 'Male', 'daniel5@example.com', 'hashedpass5', NOW(), 'Spanish', 'Lawyer', 'Soccer, gardening', 'Maria Garcia (sister)', 'photo5.jpg', 'SMS', 'TRUE', 'Driver'),
+    ('Kim', 'Soo', '1231231234', '1987-06-12', 'Male', 'soo6@example.com', 'hashedpass6', NOW(), 'Korean', 'Chef', 'Cooking, fishing', 'Kim Min (mother)', 'photo6.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Chen', 'Li', '4564564567', '1993-09-25', 'Female', 'li7@example.com', 'hashedpass7', NOW(), 'Chinese', 'Software Engineer', 'Coding, hiking', 'Chen Wei (brother)', 'photo7.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Singh', 'Raj', '7897897890', '1980-12-08', 'Male', 'raj8@example.com', 'hashedpass8', NOW(), 'Hindi', 'Doctor', 'Yoga, reading', 'Singh Amar (father)', 'photo8.jpg', 'SMS', 'TRUE', 'Driver'),
+    ('Gonzalez', 'Maria', '3216549870', '1996-04-18', 'Female', 'maria9@example.com', 'hashedpass9', NOW(), 'Spanish', 'Nurse', 'Dancing, cooking', 'Gonzalez Luis (brother)', 'photo9.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Yamada', 'Takashi', '9879876543', '1984-02-03', 'Male', 'takashi10@example.com', 'hashedpass10', NOW(), 'Japanese', 'Architect', 'Drawing, gardening', 'Yamada Sakura (wife)', 'photo10.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Lee', 'Ji', '6543217890', '1991-07-22', 'Female', 'ji11@example.com', 'hashedpass11', NOW(), 'Korean', 'Teacher', 'Music, traveling', 'Lee Minho (brother)', 'photo11.jpg', 'SMS', 'TRUE', 'Passenger'),
+    ('Wang', 'Xiao', '1472583690', '1989-10-30', 'Male', 'xiao12@example.com', 'hashedpass12', NOW(), 'Chinese', 'Entrepreneur', 'Business, hiking', 'Wang Wei (father)', 'photo12.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Nguyen', 'Huyen', '3692581470', '1990-05-05', 'Female', 'huyen13@example.com', 'hashedpass13', NOW(), 'Vietnamese', 'Engineer', 'Technology, cooking', 'Nguyen Minh (husband)', 'photo13.jpg', 'Push-Notification', 'TRUE', 'Passenger'),
+    ('Kumar', 'Rahul', '2583691470', '1986-11-15', 'Male', 'rahul14@example.com', 'hashedpass14', NOW(), 'Hindi', 'Lawyer', 'Reading, sports', 'Kumar Rajesh (brother)', 'photo14.jpg', 'SMS', 'TRUE', 'Driver'),
+    ('Fernandez', 'Luisa', '9876541230', '1983-08-11', 'Female', 'luisa15@example.com', 'hashedpass15', NOW(), 'Spanish', 'Artist', 'Painting, hiking', 'Fernandez Miguel (father)', 'photo15.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Kato', 'Yuki', '4561237890', '1997-03-27', 'Male', 'yuki16@example.com', 'hashedpass16', NOW(), 'Japanese', 'Doctor', 'Skiing, photography', 'Kato Hiroshi (uncle)', 'photo16.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Chowdhury', 'Aisha', '3219876540', '1994-01-09', 'Female', 'aisha17@example.com', 'hashedpass17', NOW(), 'Bengali', 'Software Engineer', 'Coding, reading', 'Chowdhury Abdul (father)', 'photo17.jpg', 'SMS', 'TRUE', 'Driver'),
+    ('Lopez', 'Javier', '9871234560', '1981-09-03', 'Male', 'javier18@example.com', 'hashedpass18', NOW(), 'Spanish', 'Chef', 'Cooking, soccer', 'Lopez Carlos (brother)', 'photo18.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Ali', 'Fatima', '6549873210', '1988-06-20', 'Female', 'fatima19@example.com', 'hashedpass19', NOW(), 'Urdu', 'Teacher', 'Music, gardening', 'Ali Ahmed (father)', 'photo19.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Park', 'Min', '1234569870', '1992-12-04', 'Male', 'min20@example.com', 'hashedpass20', NOW(), 'Korean', 'Entrepreneur', 'Business, hiking', 'Park Jisoo (sister)', 'photo20.jpg', 'SMS', 'TRUE', 'Driver'),
+    ('Gupta', 'Anjali', '9876547890', '1987-04-14', 'Female', 'anjali21@example.com', 'hashedpass21', NOW(), 'Hindi', 'Nurse', 'Dancing, cooking', 'Gupta Sanjay (husband)', 'photo21.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Tanaka', 'Haruto', '3216549870', '1995-10-07', 'Male', 'haruto22@example.com', 'hashedpass22', NOW(), 'Japanese', 'Architect', 'Drawing, traveling', 'Tanaka Hikari (wife)', 'photo22.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Ma', 'Xiaojie', '4561237890', '1990-03-13', 'Female', 'xiaojie23@example.com', 'hashedpass23', NOW(), 'Chinese', 'Engineer', 'Technology, cooking', 'Ma Wei (father)', 'photo23.jpg', 'SMS', 'TRUE', 'Driver'),
+    ('Tran', 'Linh', '7894561230', '1984-07-31', 'Male', 'linh24@example.com', 'hashedpass24', NOW(), 'Vietnamese', 'Lawyer', 'Reading, soccer', 'Tran Minh (brother)', 'photo24.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Chen', 'Yan', '3692581470', '1996-05-15', 'Female', 'yan25@example.com', 'hashedpass25', NOW(), 'Chinese', 'Artist', 'Painting, hiking', 'Chen Wei (father)', 'photo25.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Singh', 'Aman', '2583691470', '1982-11-24', 'Male', 'aman26@example.com', 'hashedpass26', NOW(), 'Hindi', 'Doctor', 'Yoga, reading', 'Singh Amar (father)', 'photo26.jpg', 'SMS', 'TRUE', 'Driver'),
+    ('Rodriguez', 'Gabriela', '9876543210', '1993-01-05', 'Female', 'gabriela27@example.com', 'hashedpass27', NOW(), 'Spanish', 'Teacher', 'Music, traveling', 'Rodriguez Jose (brother)', 'photo27.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Suzuki', 'Takahiro', '6549873210', '1980-08-18', 'Male', 'takahiro28@example.com', 'hashedpass28', NOW(), 'Japanese', 'Entrepreneur', 'Business, hiking', 'Suzuki Ryu (father)', 'photo28.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Ahmed', 'Nadia', '1234569870', '1997-04-26', 'Female', 'nadia29@example.com', 'hashedpass29', NOW(), 'Urdu', 'Software Engineer', 'Coding, reading', 'Ahmed Abdul (father)', 'photo29.jpg', 'SMS', 'TRUE', 'Passenger'),
+    ('Gomez', 'Miguel', '9871234560', '1985-10-10', 'Male', 'miguel30@example.com', 'hashedpass30', NOW(), 'Spanish', 'Chef', 'Cooking, soccer', 'Gomez Carlos (brother)', 'photo30.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Sinha', 'Ananya', '6543219870', '1991-06-03', 'Female', 'ananya31@example.com', 'hashedpass31', NOW(), 'Hindi', 'Teacher', 'Music, gardening', 'Sinha Sanjay (husband)', 'photo31.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Choi', 'Joon', '1472583690', '1988-11-13', 'Male', 'joon32@example.com', 'hashedpass32', NOW(), 'Korean', 'Nurse', 'Dancing, cooking', 'Choi Min (mother)', 'photo32.jpg', 'SMS', 'TRUE', 'Driver'),
+    ('Wu', 'Yan', '3692581470', '1983-05-22', 'Female', 'yan33@example.com', 'hashedpass33', NOW(), 'Chinese', 'Entrepreneur', 'Business, hiking', 'Wu Wei (father)', 'photo33.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Le', 'Nam', '2583691470', '1992-12-16', 'Male', 'nam34@example.com', 'hashedpass34', NOW(), 'Vietnamese', 'Lawyer', 'Reading, soccer', 'Le Minh (brother)', 'photo34.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Cheng', 'Xiao', '7896541230', '1981-09-29', 'Female', 'xiao35@example.com', 'hashedpass35', NOW(), 'Chinese', 'Artist', 'Painting, hiking', 'Cheng Wei (father)', 'photo35.jpg', 'SMS', 'TRUE', 'Driver'),
+    ('Patel', 'Amit', '3219876540', '1989-07-08', 'Male', 'amit36@example.com', 'hashedpass36', NOW(), 'Hindi', 'Doctor', 'Yoga, reading', 'Patel Amar (father)', 'photo36.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Fuentes', 'Isabella', '9876541230', '1996-02-19', 'Female', 'isabella37@example.com', 'hashedpass37', NOW(), 'Spanish', 'Teacher', 'Music, traveling', 'Fuentes Jose (brother)', 'photo37.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Nakamura', 'Ryu', '4561237890', '1984-10-26', 'Male', 'ryu38@example.com', 'hashedpass38', NOW(), 'Japanese', 'Entrepreneur', 'Business, hiking', 'Nakamura Yuki (wife)', 'photo38.jpg', 'SMS', 'TRUE', 'Driver'),
+    ('Rahman', 'Fatima', '3216549870', '1990-06-08', 'Female', 'fatima39@example.com', 'hashedpass39', NOW(), 'Urdu', 'Software Engineer', 'Coding, reading', 'Rahman Ahmed (father)', 'photo39.jpg', 'Email', 'TRUE', 'Passenger'),
+    ('Martinez', 'Diego', '9871234560', '1982-03-17', 'Male', 'diego40@example.com', 'hashedpass40', NOW(), 'Spanish', 'Chef', 'Cooking, soccer', 'Martinez Carlos (brother)', 'photo40.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Jain', 'Priya', '6549873210', '1987-11-30', 'Female', 'priya41@example.com', 'hashedpass41', NOW(), 'Hindi', 'Teacher', 'Music, gardening', 'Jain Sanjay (husband)', 'photo41.jpg', 'SMS', 'TRUE', 'Passenger'),
+    ('Kim', 'Min', '1234569870', '1993-05-12', 'Male', 'min42@example.com', 'hashedpass42', NOW(), 'Korean', 'Nurse', 'Dancing, cooking', 'Kim Min (mother)', 'photo42.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Li', 'Xiaoli', '4561237890', '1988-09-23', 'Female', 'xiaoli43@example.com', 'hashedpass43', NOW(), 'Chinese', 'Entrepreneur', 'Business, hiking', 'Li Wei (father)', 'photo43.jpg', 'Push-Notification', 'TRUE', 'Passenger'),
+    ('Tran', 'Hoa', '7894561230', '1985-02-07', 'Male', 'hoa44@example.com', 'hashedpass44', NOW(), 'Vietnamese', 'Lawyer', 'Reading, soccer', 'Tran Minh (brother)', 'photo44.jpg', 'SMS', 'TRUE', 'Driver'),
+    ('Zhang', 'Yan', '3692581470', '1991-10-19', 'Female', 'yan45@example.com', 'hashedpass45', NOW(), 'Chinese', 'Artist', 'Painting, hiking', 'Zhang Wei (father)', 'photo45.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Singh', 'Rajesh', '2583691470', '1987-04-29', 'Male', 'rajesh46@example.com', 'hashedpass46', NOW(), 'Hindi', 'Doctor', 'Yoga, reading', 'Singh Amar (father)', 'photo46.jpg', 'Push-Notification', 'TRUE', 'Driver'),
+    ('Santos', 'Ana', '9876543210', '1994-02-14', 'Female', 'ana47@example.com', 'hashedpass47', NOW(), 'Spanish', 'Teacher', 'Music, traveling', 'Santos Jose (brother)', 'photo47.jpg', 'SMS', 'TRUE', 'Passenger'),
+    ('Abe', 'Takumi', '6549873210', '1983-09-03', 'Male', 'takumi48@example.com', 'hashedpass48', NOW(), 'Japanese', 'Entrepreneur', 'Business, hiking', 'Abe Ryu (father)', 'photo48.jpg', 'Email', 'TRUE', 'Driver'),
+    ('Hussain', 'Aisha', '1234569870', '1998-06-26', 'Female', 'aisha49@example.com', 'hashedpass49', NOW(), 'Urdu', 'Software Engineer', 'Coding, reading', 'Hussain Abdul (father)', 'photo49.jpg', 'Push-Notification', 'TRUE', 'Passenger'),
+    ('Gonzalez', 'Pedro', '9871234560', '1981-02-18', 'Male', 'pedro50@example.com', 'hashedpass50', NOW(), 'Spanish', 'Chef', 'Cooking, soccer', 'Gonzalez Carlos (brother)', 'photo50.jpg', 'SMS', 'TRUE', 'Driver');
 -- Insertion de données dans la table Cars
 INSERT INTO Cars (DriverID, Brand, Model, CarYear, Color, LicensePlate, SerialNumber, NumberOfSeats)
 VALUES 
@@ -186,7 +232,7 @@ VALUES
 (7, 47, 2, 15.00, NOW(), 'TRUE'),
 (8, 48, 4, 25.00, NOW(), 'TRUE'),
 (9, 49, 3, 20.00, NOW(), 'FALSE'),
-(10, 50, 2, 15.00, NOW(), 'TRUE'),
+(10, 49, 2, 15.00, NOW(), 'TRUE'),
 (1, 1, 3, 20.00, NOW(), 'TRUE'),
 (2, 2, 2, 15.00, NOW(), 'TRUE'),
 (3, 3, 4, 25.00, NOW(), 'TRUE'),
@@ -236,7 +282,7 @@ VALUES
 (7, 47, 2, 15.00, NOW(), 'TRUE'),
 (8, 48, 4, 25.00, NOW(), 'TRUE'),
 (9, 49, 3, 20.00, NOW(), 'TRUE'),
-(10, 50, 2, 15.00, NOW(), 'TRUE'),
+(10, 49, 2, 15.00, NOW(), 'TRUE'),
 (1, 1, 3, 20.00, NOW(), 'TRUE'),
 (2, 2, 2, 15.00, NOW(), 'TRUE'),
 (3, 3, 4, 25.00, NOW(), 'TRUE'),
@@ -286,9 +332,7 @@ VALUES
 (7, 47, 2, 15.00, NOW(), 'TRUE'),
 (8, 48, 4, 25.00, NOW(), 'TRUE'),
 (9, 49, 3, 20.00, NOW(), 'TRUE'),
-(10, 50, 2, 15.00, NOW(), 'TRUE');
-
-
+(10, 49, 2, 15.00, NOW(), 'TRUE');
 
 -- Insertion de données dans la table Reservations
 INSERT INTO Reservations (PassengerID, JourneyID, ReservationDate, ReservationStatus)

@@ -14,7 +14,7 @@ CREATE TABLE Users (
     EmergencyContact VARCHAR(255),
     ProfilePhoto VARCHAR(255),
     NotificationPreferences ENUM('Email', 'SMS', 'Push-Notification'),
-    IsActive VARCHAR(10),
+    IsActive Boolean,
     Role VARCHAR(20) NOT NULL CHECK (role IN ('Driver', 'Passenger'))
 );
 
@@ -56,7 +56,7 @@ CREATE TABLE Journeys (
     AvailableSeats INT NOT NULL,
     Price DECIMAL(10, 2) NOT NULL,
     JourneyCreationDate DATETIME NOT NULL,
-    IsActive VARCHAR(10), -- TRUE or FALSE
+    IsActive BOOLEAN, -- TRUE or FALSE
     FOREIGN KEY (DriverID) REFERENCES Users(userID),
     FOREIGN KEY (TrajetID) REFERENCES Trajets(TrajetID)
 );

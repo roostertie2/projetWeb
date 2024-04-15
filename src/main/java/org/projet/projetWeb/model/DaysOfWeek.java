@@ -17,6 +17,7 @@ public class DaysOfWeek {
     private int dayID;
     @NotBlank(message = "Day name cannot be blank")
     @Size(max = 20, message = "Day name must not exceed 20 characters")
+    @Column(name = "DayName")
     private String dayName;
 
 }
