@@ -29,6 +29,7 @@ public class UserController {
     }
     @PostMapping("/create")
     public ResponseEntity<User> createUtilisateur(@RequestBody User user) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) { return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(user);}
         user.setIsActive(true);
         User createdUser = userRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
