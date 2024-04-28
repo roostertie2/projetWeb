@@ -40,7 +40,7 @@ public class ProjectSecurityConfig {
                 })
                 // Configure URL authorization
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**", "/byEmail", "/users/byEmailAndPassword").permitAll()  // Allow H2 console access
+                        .requestMatchers("/h2-console/**", "/byEmail").permitAll()  // Allow H2 console access
                         .anyRequest().authenticated()  // All other requests require authentication
                 )
                 // Configure form login
