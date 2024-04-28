@@ -53,7 +53,7 @@ public class Car {
     private Integer numberOfSeats;
 
     @ManyToOne
-    @JoinColumn(name = "DriverID", insertable = false, updatable = false)
+    @JoinColumn(name = "DriverID", referencedColumnName = "userID", insertable = false, updatable = false)
     private User driver;
 
 

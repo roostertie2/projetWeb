@@ -18,9 +18,9 @@ import java.util.Optional;
 public class CarController {
     @Autowired
     CarRepository carRepository;
-    @GetMapping("/findCarByDriverId/{id}")
-    public ResponseEntity<Car> getCarByDriverId(@RequestParam int driverId) {
-        Optional<Car> carOptional = carRepository.findCarByDriverId(driverId);
+    @GetMapping("/findCarByDriverId/{UserID}")
+    public ResponseEntity<Car> getCarByDriverID(@RequestParam int driverID) {
+        Optional<Car> carOptional = carRepository.findCarByDriver_userID(driverID);
         return carOptional.map(car -> ResponseEntity.ok().body(car))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

@@ -27,6 +27,12 @@ public class UserController {
         return utilisateurOptional.map(utilisateur -> ResponseEntity.ok().body(utilisateur))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @GetMapping("/byEmailAndPassword")
+    public ResponseEntity<User> getUtilisateurByEmailAndHashedPassword(@RequestParam String email, @RequestParam String hashedPassword) {
+        Optional<User> utilisateurOptional = userRepository.findByEmailAndHashedPassword(email,hashedPassword);
+        return utilisateurOptional.map(utilisateur -> ResponseEntity.ok().body(utilisateur))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
     @PostMapping("/create")
     public ResponseEntity<User> createUtilisateur(@RequestBody User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) { return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(user);}
