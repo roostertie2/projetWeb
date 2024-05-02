@@ -75,7 +75,6 @@ public class User {
     @NotNull(message = "L'état actif est requis")
     @Column(name = "IsActive")
     private Boolean isActive;
-
     @NotNull(message = "Le rôle est requis")
     @Enumerated(EnumType.STRING)
     @Column(name = "Role")

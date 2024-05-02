@@ -24,6 +24,11 @@ public class TrajetController {
         return trajetOptional.map(journey -> ResponseEntity.ok().body(journey))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @GetMapping("/findTrajetsByUserId/{id}")
+    public ResponseEntity<List<Trajet>> getTrajetsByUserId(@PathVariable int id) {
+        List<Trajet> listTrajet = trajetRepository.findTrajetByUser_userID(id);
+        return  ResponseEntity.ok().body(listTrajet);
+    }
     @GetMapping("/findAllTrajet")
     public ResponseEntity<List<Trajet>> getAllTrajet() {
         List<Trajet> listTrajet= trajetRepository.findAll();
