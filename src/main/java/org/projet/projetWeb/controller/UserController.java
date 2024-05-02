@@ -21,6 +21,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/byId")
+    public ResponseEntity<User> getUtilisateurById(@RequestParam int id) {
+        Optional<User> utilisateurOptional = userRepository.findById(id);
+        return utilisateurOptional.map(utilisateur -> ResponseEntity.ok().body(utilisateur))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
     @GetMapping("/byEmail")
     public ResponseEntity<User> getUtilisateurByEmail(@RequestParam String email) {
         Optional<User> utilisateurOptional = userRepository.findByEmail(email);
