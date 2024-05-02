@@ -19,7 +19,7 @@ public class TrajetController {
     @Autowired
     TrajetRepository trajetRepository;
     @GetMapping("/findTrajetById/{id}")
-    public ResponseEntity<Trajet> getTrajetById(@RequestParam int id) {
+    public ResponseEntity<Trajet> getTrajetById(@PathVariable int id) {
         Optional<Trajet> trajetOptional = trajetRepository.findById(id);
         return trajetOptional.map(journey -> ResponseEntity.ok().body(journey))
                 .orElseGet(() -> ResponseEntity.notFound().build());

@@ -19,7 +19,7 @@ public class CarController {
     @Autowired
     CarRepository carRepository;
     @GetMapping("/findCarByDriverId/{UserID}")
-    public ResponseEntity<Car> getCarByDriverID(@RequestParam int driverID) {
+    public ResponseEntity<Car> getCarByDriverID(@PathVariable int driverID) {
         Optional<Car> carOptional = carRepository.findCarByDriver_userID(driverID);
         return carOptional.map(car -> ResponseEntity.ok().body(car))
                 .orElseGet(() -> ResponseEntity.notFound().build());

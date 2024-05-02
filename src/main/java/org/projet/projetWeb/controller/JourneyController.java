@@ -18,7 +18,7 @@ public class JourneyController {
     @Autowired
     JourneyRepository journeyRepository;
     @GetMapping("/findJourneyById/{id}")
-    public ResponseEntity<Journey> getJourneyById(@RequestParam int id) {
+    public ResponseEntity<Journey> getJourneyById(@PathVariable int id) {
         Optional<Journey>  journeyOptional = journeyRepository.findById(id);
         return journeyOptional.map(journey -> ResponseEntity.ok().body(journey))
                 .orElseGet(() -> ResponseEntity.notFound().build());
