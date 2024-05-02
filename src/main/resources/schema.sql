@@ -13,7 +13,6 @@ CREATE TABLE Users (
     HobbiesInterests TEXT,
     EmergencyContact VARCHAR(255),
     ProfilePhoto VARCHAR(255),
-    NotificationPreferences ENUM('Email', 'SMS', 'Push-Notification'),
     IsActive Boolean,
     Role VARCHAR(20) NOT NULL CHECK (role IN ('Driver', 'Passenger'))
 );
@@ -66,7 +65,7 @@ CREATE TABLE Reservations (
     PassengerID INT NOT NULL,
     JourneyID INT NOT NULL,
     ReservationDate DATETIME NOT NULL,
-    ReservationStatus ENUM('Confirmed', 'Pending', 'Cancelled') NOT NULL,
+    ReservationStatus VARCHAR(20) NOT NULL CHECK (ReservationStatus IN ('Confirmed', 'Pending', 'Cancelled')),
     FOREIGN KEY (PassengerID) REFERENCES Users(userID),
     FOREIGN KEY (JourneyID) REFERENCES Journeys(journeyID)
 );

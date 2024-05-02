@@ -72,11 +72,6 @@ public class User {
     @Column(name = "ProfilePhoto")
     private String profilePhoto;
 
-    @NotNull(message = "Les préférences de notification sont requises")
-    @Enumerated(EnumType.STRING)
-    @Column(name = "NotificationPreferences")
-    private NotificationPreferences notificationPreferences;
-
     @NotNull(message = "L'état actif est requis")
     @Column(name = "IsActive")
     private Boolean isActive;
@@ -88,10 +83,6 @@ public class User {
 
     enum Gender {
         Male, Female, Other
-    }
-
-    enum NotificationPreferences {
-        Email, SMS, Push_Notification
     }
 
     enum Role {
