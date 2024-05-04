@@ -7,6 +7,7 @@ import org.projet.projetWeb.model.Trajet;
 import org.projet.projetWeb.repository.JourneyRepository;
 import org.projet.projetWeb.repository.ReservationRepository;
 import org.projet.projetWeb.repository.TrajetRepository;
+import org.projet.projetWeb.services.TrajetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,8 @@ public class TrajetController {
     JourneyRepository journeyRepository;
     @Autowired
     ReservationRepository reservationRepository;
+    @Autowired
+    TrajetService trajetService;
     @GetMapping("/findTrajetById/{id}")
     public ResponseEntity<Trajet> getTrajetById(@PathVariable int id) {
         Optional<Trajet> trajetOptional = trajetRepository.findById(id);
@@ -42,7 +45,7 @@ public class TrajetController {
     }
     @PostMapping("/create")
     public ResponseEntity<Trajet> createTrajet(@RequestBody Trajet trajet) {
-        Trajet createdTrajet = trajetRepository.save(trajet);
+        Trajet createdTrajet = trajetService.createTrajet(trajet);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTrajet);
     }
 

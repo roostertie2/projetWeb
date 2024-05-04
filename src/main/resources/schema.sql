@@ -44,6 +44,10 @@ CREATE TABLE Trajets (
     DesiredArrivalTime DATETIME,
     UserID INT NOT NULL,
     DayID INT NOT NULL,
+    DepartureLatitude DECIMAL(10, 8),
+    DepartureLongitude DECIMAL(11, 8),
+    DestinationLatitude DECIMAL(10, 8),
+    DestinationLongitude DECIMAL(11, 8),
     FOREIGN KEY (UserID) REFERENCES Users(userID),
     FOREIGN KEY (DayID) REFERENCES DaysOfWeek(DayID)
 );

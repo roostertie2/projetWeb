@@ -2,6 +2,7 @@ package org.projet.projetWeb.services;
 
 import org.projet.projetWeb.model.GeocodeResponse;
 import org.projet.projetWeb.model.Journey;
+import org.projet.projetWeb.model.Trajet;
 import org.projet.projetWeb.model.User;
 import org.projet.projetWeb.repository.JourneyRepository;
 import org.projet.projetWeb.repository.UserRepository;
@@ -18,46 +19,61 @@ public class JourneyService {
     private final GoogleService googleService;
     private final JourneyRepository journeyRepository;
     private final UserRepository userRepository;
+    private final TrajetService trajetService;
 
     @Autowired
-    public JourneyService(GoogleService googleService, JourneyRepository journeyRepository, UserRepository userRepository) {
+    public JourneyService(GoogleService googleService, JourneyRepository journeyRepository, UserRepository userRepository,TrajetService trajetService) {
         this.googleService = googleService;
         this.journeyRepository = journeyRepository;
         this.userRepository = userRepository;
+        this.trajetService = trajetService;
     }
 
     public List<Journey> findMatchingJourneys(User passenger) {
         // Retrieve the passenger's journey details (if available)
         Journey passengerJourney = journeyRepository.findTopByDriverUserIDOrderByJourneyCreationDateDesc(passenger.getUserID()).orElse(null);
+        Trajet trajet = passengerJourney.getTrajet();
 
+        if (trajet.getDepartureLongitude() == null || trajet.getDepartureLatitude() == null || trajet.getDestinationLongitude() == null || trajet.getDestinationLatitude() == null) {
+            // Handle the case where any of the longitude or latitude values is null
+            trajetService.updateTrajet(trajet.getTrajetID());
+        }
         // If passenger has a saved journey
         if (passengerJourney != null) {
             // Fetch the geolocation data for the departure and destination addresses of passenger's journey
-            GeocodeResponse passengerDepartureLocation = googleService.geocode(passengerJourney.getTrajet().getDepartureAddress());
-            GeocodeResponse passengerDestinationLocation = googleService.geocode(passengerJourney.getTrajet().getDestinationAddress());
-
+            Double passengerDepartureLatitude = passengerJourney.getTrajet().getDepartureLatitude();
+            Double passengerDepartureLongitude = passengerJourney.getTrajet().getDepartureLongitude();
+            Double passengerDestinationLatitude = passengerJourney.getTrajet().getDestinationLatitude();
+            Double passengerDestinationLongitude = passengerJourney.getTrajet().getDestinationLongitude();
             // If geolocation data is available for both addresses
-            if (passengerDepartureLocation != null && passengerDestinationLocation != null) {
+            if (passengerDepartureLatitude != null && passengerDepartureLongitude != null &&
+                    passengerDestinationLatitude != null && passengerDestinationLongitude != null) {
                 // Search for drivers within 10 km of departure and destination
                 List<Journey> nearbyDrivers = findDriversWithinDistance(passengerJourney, 10);
 
                 // Filter drivers based on distance from destination and other conditions
-                GeocodeResponse driverDepartureLocation;
-                GeocodeResponse driverDestinationLocation;
-
                 List<Journey> matchingJourneys = new ArrayList<>();
                 for (Journey journey : nearbyDrivers) {
-                    // driverJourney = journeyRepository.findJourneyByDriver_userID(driver.getUserID()).orElse(null);
-
                     if (journey != null) {
-                        // Fetch the geolocation data for the departure and destination addresses of driver's journey
-                        driverDepartureLocation = googleService.geocode(journey.getTrajet().getDepartureAddress());
-                       driverDestinationLocation = googleService.geocode(journey.getTrajet().getDestinationAddress());
+                        Trajet trajetDriver = journey.getTrajet();
+                        if (trajetDriver.getDepartureLongitude() == null || trajetDriver.getDepartureLatitude() == null || trajetDriver.getDestinationLongitude() == null || trajetDriver.getDestinationLatitude() == null) {
+                            // Handle the case where any of the longitude or latitude values is null
+                            trajetService.updateTrajet(trajetDriver.getTrajetID());
+                        }
+                        // Fetch the latitude and longitude values for the departure and destination addresses of driver's journey
+                        Double driverDepartureLatitude = journey.getTrajet().getDepartureLatitude();
+                        Double driverDepartureLongitude = journey.getTrajet().getDepartureLongitude();
+                        Double driverDestinationLatitude = journey.getTrajet().getDestinationLatitude();
+                        Double driverDestinationLongitude = journey.getTrajet().getDestinationLongitude();
 
-                        if (driverDepartureLocation != null && driverDestinationLocation != null) {
+                        // If latitude and longitude values are available for driver's addresses
+                        if (driverDepartureLatitude != null && driverDepartureLongitude != null &&
+                                driverDestinationLatitude != null && driverDestinationLongitude != null) {
                             // Calculate relevance of the journey
-                            double relevance = calculateRelevance(driverDepartureLocation, driverDestinationLocation,
-                                    passengerDepartureLocation, passengerDestinationLocation);
+                            double relevance = calculateRelevance(driverDepartureLatitude, driverDepartureLongitude,
+                                    driverDestinationLatitude, driverDestinationLongitude,
+                                    passengerDepartureLatitude, passengerDepartureLongitude,
+                                    passengerDestinationLatitude, passengerDestinationLongitude);
 
                             // Check if relevance satisfies conditions
                             if (relevance > 0) {
@@ -65,15 +81,18 @@ public class JourneyService {
                                 matchingJourneys.add(journey);
                             }
                         }
-                        GeocodeResponse finalDriverDepartureLocation = driverDepartureLocation;
-                        GeocodeResponse finalDriverDestinationLocation = driverDestinationLocation;
-                        Collections.sort(matchingJourneys, Comparator.comparingDouble(journey2 -> calculateRelevance(finalDriverDepartureLocation, finalDriverDestinationLocation,
-                                passengerDepartureLocation, passengerDestinationLocation)));
                     }
-
-
                 }
-
+                Collections.sort(matchingJourneys, Comparator.comparingDouble(journey -> {
+                    double driverDepartureLatitude = journey.getTrajet().getDepartureLatitude();
+                    double driverDepartureLongitude = journey.getTrajet().getDepartureLongitude();
+                    double driverDestinationLatitude = journey.getTrajet().getDestinationLatitude();
+                    double driverDestinationLongitude = journey.getTrajet().getDestinationLongitude();
+                    return calculateRelevance(driverDepartureLatitude, driverDepartureLongitude,
+                            driverDestinationLatitude, driverDestinationLongitude,
+                            passengerDepartureLatitude, passengerDepartureLongitude,
+                            passengerDestinationLatitude, passengerDestinationLongitude);
+                }));
                 return matchingJourneys;
             }
         }
@@ -112,11 +131,27 @@ public class JourneyService {
     private double calculateRelevance(GeocodeResponse driverDepartureLocation, GeocodeResponse driverDestinationLocation,
                                       GeocodeResponse passengerDepartureLocation, GeocodeResponse passengerDestinationLocation) {
         // Calculate distances between driver's departure and destination and passenger's corresponding addresses
-        double departureDistance = calculateDistance(driverDepartureLocation.getLatitude(), driverDepartureLocation.getLongitude(),
-                passengerDepartureLocation.getLatitude(), passengerDepartureLocation.getLongitude());
+        double departureDistance = calculateDistance(driverDepartureLocation.getResults().get(0).getPosition().getLat(), driverDepartureLocation.getResults().get(0).getPosition().getLon(),
+                passengerDepartureLocation.getResults().get(0).getPosition().getLat(), passengerDepartureLocation.getResults().get(0).getPosition().getLon());
 
-        double destinationDistance = calculateDistance(driverDestinationLocation.getLatitude(), driverDestinationLocation.getLongitude(),
-                passengerDestinationLocation.getLatitude(), passengerDestinationLocation.getLongitude());
+        double destinationDistance = calculateDistance(driverDestinationLocation.getResults().get(0).getPosition().getLat(), driverDestinationLocation.getResults().get(0).getPosition().getLon(),
+                passengerDestinationLocation.getResults().get(0).getPosition().getLat(), passengerDestinationLocation.getResults().get(0).getPosition().getLon());
+
+        // Calculate total relevance as the sum of departure and destination distances
+        double totalRelevance = departureDistance + destinationDistance;
+
+        return totalRelevance;
+    }
+    private double calculateRelevance(double driverDepartureLatitude, double driverDepartureLongitude,
+                                      double driverDestinationLatitude, double driverDestinationLongitude,
+                                      double passengerDepartureLatitude, double passengerDepartureLongitude,
+                                      double passengerDestinationLatitude, double passengerDestinationLongitude) {
+        // Calculate distances between driver's departure and destination and passenger's corresponding addresses
+        double departureDistance = calculateDistance(driverDepartureLatitude, driverDepartureLongitude,
+                passengerDepartureLatitude, passengerDepartureLongitude);
+
+        double destinationDistance = calculateDistance(driverDestinationLatitude, driverDestinationLongitude,
+                passengerDestinationLatitude, passengerDestinationLongitude);
 
         // Calculate total relevance as the sum of departure and destination distances
         double totalRelevance = departureDistance + destinationDistance;

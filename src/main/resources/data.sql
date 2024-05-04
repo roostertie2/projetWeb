@@ -92,7 +92,7 @@ INSERT INTO DaysOfWeek (DayName) VALUES
 -- Insertion de données dans la table Trajets
 INSERT INTO Trajets (DepartureAddress, DestinationAddress, DesiredDepartureTime, DesiredArrivalTime, UserID, DayID)
 VALUES 
-('123 Main St', '456 Oak St', '2024-04-05 08:00:00', '2024-04-05 09:00:00', 1, 1),
+('123 Main St N, Alexandria, ON K0C 1A0', '456 Oak St', '2024-04-05 08:00:00', '2024-04-05 09:00:00', 1, 1),
 ('789 Elm St', '321 Pine St', '2024-04-06 09:00:00', '2024-04-06 10:00:00', 2, 2),
 ('555 Maple St', '888 Birch St', '2024-04-07 10:00:00', '2024-04-07 11:00:00', 3, 3),
 ('222 Cedar St', '999 Walnut St', '2024-04-08 11:00:00', '2024-04-08 12:00:00', 4, 4),

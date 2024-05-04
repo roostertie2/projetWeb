@@ -41,4 +41,16 @@ public class Trajet {
     @ManyToOne
     @JoinColumn(name = "DayID", referencedColumnName = "DayID")
     private DaysOfWeek day;
+
+    @Column(name = "DepartureLatitude")
+    private Double departureLatitude;
+
+    @Column(name = "DepartureLongitude")
+    private Double departureLongitude;
+
+    @Column(name = "DestinationLatitude")
+    private Double destinationLatitude;
+
+    @Column(name = "DestinationLongitude")
+    private Double destinationLongitude;
 }
