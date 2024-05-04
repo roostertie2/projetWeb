@@ -2,8 +2,10 @@ package org.projet.projetWeb.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.projet.projetWeb.model.Journey;
+import org.projet.projetWeb.model.Reservation;
 import org.projet.projetWeb.model.Trajet;
 import org.projet.projetWeb.repository.JourneyRepository;
+import org.projet.projetWeb.repository.ReservationRepository;
 import org.projet.projetWeb.repository.TrajetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,10 @@ import java.util.Optional;
 public class TrajetController {
     @Autowired
     TrajetRepository trajetRepository;
+    @Autowired
+    JourneyRepository journeyRepository;
+    @Autowired
+    ReservationRepository reservationRepository;
     @GetMapping("/findTrajetById/{id}")
     public ResponseEntity<Trajet> getTrajetById(@PathVariable int id) {
         Optional<Trajet> trajetOptional = trajetRepository.findById(id);
@@ -55,11 +61,27 @@ public class TrajetController {
         Optional<Trajet> trajetOptional = trajetRepository.findById(id);
         if (trajetOptional.isPresent()) {
             Trajet trajet = trajetOptional.get();
+
+            // Find all associated journeys for the trajet
+            List<Journey> journeys = journeyRepository.findJourneysByTrajet(trajet);
+
+            // Loop through each journey and delete associated reservations
+            for (Journey journey : journeys) {
+                List<Reservation> reservations = reservationRepository.findReservationsByJourney(journey);
+                reservationRepository.deleteAll(reservations);
+            }
+
+            // Delete all associated journeys
+            journeyRepository.deleteAll(journeys);
+
+            // Delete the trajet itself
             trajetRepository.delete(trajet);
-            return ResponseEntity.ok("Journey supprimée avec succès");
+
+            return ResponseEntity.ok("Trajet and associated journeys and reservations deleted successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Journey non trouvée avec l'ID : " + id);
+                    .body("Trajet not found with ID: " + id);
         }
     }
+
 }
