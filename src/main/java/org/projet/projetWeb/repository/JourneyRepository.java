@@ -21,4 +21,6 @@ public interface JourneyRepository extends JpaRepository<Journey, Integer> {
             "AND u.role = 'Driver'")
     List<Journey> findDriversWithinDistance(@Param("departureAddress") String departureAddress,
                                             @Param("destinationAddress") String destinationAddress);
+    @Query("SELECT j FROM Journey j JOIN j.driver u WHERE u.role = 'Driver'")
+    List<Journey> findAllDrivers();
 }

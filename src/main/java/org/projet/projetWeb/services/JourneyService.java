@@ -158,7 +158,7 @@ public class JourneyService {
 
         return totalRelevance;
     }
-    private List<Journey> findDriversWithinDistance(Journey passengerJourney, double distance) {
+    private List<Journey> findDriversWithinDistancev0(Journey passengerJourney, double distance) {
         // Get the departure and destination addresses of the passenger's journey
         String passengerDepartureAddress = passengerJourney.getTrajet().getDepartureAddress();
         String passengerDestinationAddress = passengerJourney.getTrajet().getDestinationAddress();
@@ -168,5 +168,44 @@ public class JourneyService {
 
         return nearbyDrivers;
     }
+    private List<Journey> findDriversWithinDistance(Journey passengerJourney, double distance) {
+        // Get the departure and destination addresses of the passenger's journey
+        Double passengerDepartureLongitude = passengerJourney.getTrajet().getDepartureLongitude();
+        Double passengerDepartureLatitude  = passengerJourney.getTrajet().getDepartureLatitude();
+        Double passengerDestinationLongitude = passengerJourney.getTrajet().getDestinationLongitude();
+        Double passengerDestinationLatitude = passengerJourney.getTrajet().getDestinationLatitude();
+
+        // Get a list of all drivers
+        List<Journey> allDrivers = journeyRepository.findAllDrivers();
+
+        // Filter the drivers based on distance
+        List<Journey> nearbyDrivers = new ArrayList<>();
+        for (Journey driverJourney : allDrivers) {
+            if (driverJourney.getTrajet().getDepartureLongitude() == null || driverJourney.getTrajet().getDepartureLatitude() == null || driverJourney.getTrajet().getDestinationLongitude() == null || driverJourney.getTrajet().getDestinationLatitude() == null) {
+                // Handle the case where any of the longitude or latitude values is null
+                trajetService.updateTrajet(driverJourney.getTrajet().getTrajetID());
+            }
+            double driverDepartureLatitude = driverJourney.getTrajet().getDepartureLatitude();
+            double driverDepartureLongitude = driverJourney.getTrajet().getDepartureLongitude();
+            double driverDestinationLatitude = driverJourney.getTrajet().getDestinationLatitude();
+            double driverDestinationLongitude = driverJourney.getTrajet().getDestinationLongitude();
+
+            // Calculate distance between passenger departure and driver departure
+            double departureDistance = calculateDistance(passengerDepartureLatitude, passengerDepartureLongitude,
+                    driverDepartureLatitude, driverDepartureLongitude);
+
+            // Calculate distance between passenger destination and driver destination
+            double destinationDistance = calculateDistance(passengerDestinationLatitude, passengerDestinationLongitude,
+                    driverDestinationLatitude, driverDestinationLongitude);
+
+            // If either departure or destination distance is within the specified range, add the driver to nearbyDrivers
+            if (departureDistance <= distance || destinationDistance <= distance) {
+                nearbyDrivers.add(driverJourney);
+            }
+        }
+
+        return nearbyDrivers;
+    }
+
 
 }
