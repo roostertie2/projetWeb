@@ -128,20 +128,6 @@ public class JourneyService {
 
         return distance;
     }
-    private double calculateRelevance(GeocodeResponse driverDepartureLocation, GeocodeResponse driverDestinationLocation,
-                                      GeocodeResponse passengerDepartureLocation, GeocodeResponse passengerDestinationLocation) {
-        // Calculate distances between driver's departure and destination and passenger's corresponding addresses
-        double departureDistance = calculateDistance(driverDepartureLocation.getResults().get(0).getPosition().getLat(), driverDepartureLocation.getResults().get(0).getPosition().getLon(),
-                passengerDepartureLocation.getResults().get(0).getPosition().getLat(), passengerDepartureLocation.getResults().get(0).getPosition().getLon());
-
-        double destinationDistance = calculateDistance(driverDestinationLocation.getResults().get(0).getPosition().getLat(), driverDestinationLocation.getResults().get(0).getPosition().getLon(),
-                passengerDestinationLocation.getResults().get(0).getPosition().getLat(), passengerDestinationLocation.getResults().get(0).getPosition().getLon());
-
-        // Calculate total relevance as the sum of departure and destination distances
-        double totalRelevance = departureDistance + destinationDistance;
-
-        return totalRelevance;
-    }
     private double calculateRelevance(double driverDepartureLatitude, double driverDepartureLongitude,
                                       double driverDestinationLatitude, double driverDestinationLongitude,
                                       double passengerDepartureLatitude, double passengerDepartureLongitude,

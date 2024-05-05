@@ -22,9 +22,8 @@ public class GoogleService {
     }
 
     public GeocodeResponse geocode(String address) {
-        String encodedAddress = UriUtils.encode(address, "UTF-8");
         String url = "https://api.tomtom.com/search/2/geocode/{encodedAddress}.json?storeResult=false&view=Unified&key={apiKey}";
-        url = url.replace("{encodedAddress}", encodedAddress);
+        url = url.replace("{encodedAddress}", address);
         url = url.replace("{apiKey}",apiKey);
         return restTemplate.getForObject(url, GeocodeResponse.class);
     }
