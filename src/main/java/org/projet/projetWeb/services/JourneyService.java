@@ -1,31 +1,25 @@
 package org.projet.projetWeb.services;
 
-import org.projet.projetWeb.model.GeocodeResponse;
+
 import org.projet.projetWeb.model.Journey;
 import org.projet.projetWeb.model.Trajet;
 import org.projet.projetWeb.model.User;
 import org.projet.projetWeb.repository.JourneyRepository;
-import org.projet.projetWeb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.projet.projetWeb.services.GoogleService;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
 import java.util.*;
 
 @Service
 public class JourneyService {
 
-    private final GoogleService googleService;
     private final JourneyRepository journeyRepository;
-    private final UserRepository userRepository;
     private final TrajetService trajetService;
 
     @Autowired
-    public JourneyService(GoogleService googleService, JourneyRepository journeyRepository, UserRepository userRepository,TrajetService trajetService) {
-        this.googleService = googleService;
+    public JourneyService(JourneyRepository journeyRepository,TrajetService trajetService) {
+
         this.journeyRepository = journeyRepository;
-        this.userRepository = userRepository;
         this.trajetService = trajetService;
     }
 
@@ -143,16 +137,6 @@ public class JourneyService {
         double totalRelevance = departureDistance + destinationDistance;
 
         return totalRelevance;
-    }
-    private List<Journey> findDriversWithinDistancev0(Journey passengerJourney, double distance) {
-        // Get the departure and destination addresses of the passenger's journey
-        String passengerDepartureAddress = passengerJourney.getTrajet().getDepartureAddress();
-        String passengerDestinationAddress = passengerJourney.getTrajet().getDestinationAddress();
-
-        // Get a list of driver journeys within the specified distance
-        List<Journey> nearbyDrivers = journeyRepository.findDriversWithinDistance(passengerDepartureAddress, passengerDestinationAddress);
-
-        return nearbyDrivers;
     }
     private List<Journey> findDriversWithinDistance(Journey passengerJourney, double distance) {
         // Get the departure and destination addresses of the passenger's journey

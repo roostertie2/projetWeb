@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 

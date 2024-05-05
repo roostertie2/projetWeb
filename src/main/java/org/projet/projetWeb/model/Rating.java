@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-
 import java.time.LocalDateTime;
 
 @Data

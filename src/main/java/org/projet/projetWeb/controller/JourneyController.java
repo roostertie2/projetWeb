@@ -1,7 +1,6 @@
 package org.projet.projetWeb.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.projet.projetWeb.model.Car;
 import org.projet.projetWeb.model.Journey;
 import org.projet.projetWeb.model.User;
 import org.projet.projetWeb.repository.JourneyRepository;
