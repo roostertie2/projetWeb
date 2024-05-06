@@ -23,9 +23,9 @@ public class JourneyService {
         this.trajetService = trajetService;
     }
 
-    public List<Journey> findMatchingJourneys(User passenger) {
+    public List<Journey> findMatchingJourneys(int passengerID) {
         // Retrieve the passenger's journey details (if available)
-        Journey passengerJourney = journeyRepository.findTopByDriverUserIDOrderByJourneyCreationDateDesc(passenger.getUserID()).orElse(null);
+        Journey passengerJourney = journeyRepository.findTopByDriverUserIDOrderByJourneyCreationDateDesc(passengerID).orElse(null);
         Trajet trajet = passengerJourney.getTrajet();
 
         if (trajet.getDepartureLongitude() == null || trajet.getDepartureLatitude() == null || trajet.getDestinationLongitude() == null || trajet.getDestinationLatitude() == null) {
