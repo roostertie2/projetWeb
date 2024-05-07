@@ -5,6 +5,7 @@ import org.projet.projetWeb.model.Journey;
 import org.projet.projetWeb.model.Trajet;
 import org.projet.projetWeb.model.User;
 import org.projet.projetWeb.repository.JourneyRepository;
+import org.projet.projetWeb.repository.TrajetRepository;
 import org.projet.projetWeb.services.JourneyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,13 +21,16 @@ import java.util.Optional;
 public class JourneyController {
     @Autowired
     JourneyRepository journeyRepository;
+    @Autowired
+    TrajetRepository trajetRepository;
     private final JourneyService journeyService;
     @Autowired
     public JourneyController(JourneyService journeyService) {
         this.journeyService = journeyService;
     }
-    @GetMapping("/matching")
-    public ResponseEntity<List<Journey>> findMatchingJourneys(@RequestBody Trajet trajet) {
+    @GetMapping("/matching/{trajetID}")
+    public ResponseEntity<List<Journey>> findMatchingJourneys(@PathVariable int  trajetID) {
+        Trajet trajet = trajetRepository.findById(trajetID).get();
         List<Journey> matchingJourneys = journeyService.findMatchingJourneys(trajet);
         return ResponseEntity.ok(matchingJourneys);
     }
