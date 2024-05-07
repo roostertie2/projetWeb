@@ -36,13 +36,6 @@ public class ReservationController {
     }
     @PostMapping("/create")
     public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation) {
-       Optional<Reservation> reservationExists = reservationRepository.findReservationByJourney_JourneyID(reservation.getJourney().getJourneyID());
-
-        // If a reservation already exists, delete it
-        if (reservationExists != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-        }
-
         Reservation createdReservation = reservationRepository.save(reservation);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdReservation);
     }
