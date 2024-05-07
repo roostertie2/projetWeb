@@ -2,6 +2,7 @@ package org.projet.projetWeb.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.projet.projetWeb.model.Journey;
+import org.projet.projetWeb.model.Trajet;
 import org.projet.projetWeb.model.User;
 import org.projet.projetWeb.repository.JourneyRepository;
 import org.projet.projetWeb.services.JourneyService;
@@ -24,10 +25,10 @@ public class JourneyController {
     public JourneyController(JourneyService journeyService) {
         this.journeyService = journeyService;
     }
-    @GetMapping("/matching/{userID}")
-    public ResponseEntity<List<Journey>> findMatchingJourneys(@PathVariable int  userID) {
-        List<Journey> matchingJourneys = journeyService.findMatchingJourneys(userID);
-        return ResponseEntity.ok(matchingJourneys);
+    @GetMapping("/matching")
+    public ResponseEntity<List<Trajet>> findMatchingJourneys(@RequestBody Trajet trajet) {
+        List<Trajet> matchingTrajets = journeyService.findMatchingTrajets(trajet);
+        return ResponseEntity.ok(matchingTrajets);
     }
     @GetMapping("/findJourneyById/{id}")
     public ResponseEntity<Journey> getJourneyById(@PathVariable int id) {

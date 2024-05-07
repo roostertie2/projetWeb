@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class JourneyService {
@@ -22,28 +23,34 @@ public class JourneyService {
         this.journeyRepository = journeyRepository;
         this.trajetService = trajetService;
     }
+    public List<Trajet> findMatchingTrajets(Trajet passengerTrajet) {
+        List<Journey> matchingJourneys = findMatchingJourneys(passengerTrajet);
 
-    public List<Journey> findMatchingJourneys(int passengerID) {
-        // Retrieve the passenger's journey details (if available)
-        Journey passengerJourney = journeyRepository.findTopByDriverUserIDOrderByJourneyCreationDateDesc(passengerID).orElse(null);
-        Trajet trajet = passengerJourney.getTrajet();
-
-        if (trajet.getDepartureLongitude() == null || trajet.getDepartureLatitude() == null || trajet.getDestinationLongitude() == null || trajet.getDestinationLatitude() == null) {
-            // Handle the case where any of the longitude or latitude values is null
-            trajetService.updateTrajet(trajet.getTrajetID());
+        if (matchingJourneys.isEmpty()) {
+            return Collections.emptyList(); // Return an empty list if no matching journeys are found
         }
-        // If passenger has a saved journey
-        if (passengerJourney != null) {
-            // Fetch the geolocation data for the departure and destination addresses of passenger's journey
-            Double passengerDepartureLatitude = passengerJourney.getTrajet().getDepartureLatitude();
-            Double passengerDepartureLongitude = passengerJourney.getTrajet().getDepartureLongitude();
-            Double passengerDestinationLatitude = passengerJourney.getTrajet().getDestinationLatitude();
-            Double passengerDestinationLongitude = passengerJourney.getTrajet().getDestinationLongitude();
+
+        // Extract the trajets from the matching journeys
+        List<Trajet> matchingTrajets = matchingJourneys.stream()
+                .map(Journey::getTrajet)
+                .collect(Collectors.toList());
+
+        return matchingTrajets;
+    }
+    public List<Journey> findMatchingJourneys(Trajet passengerTrajet) {
+        // If passenger has a saved trajet
+        if (passengerTrajet != null) {
+            // Fetch the geolocation data for the departure and destination addresses of passenger's trajet
+            Double passengerDepartureLatitude = passengerTrajet.getDepartureLatitude();
+            Double passengerDepartureLongitude = passengerTrajet.getDepartureLongitude();
+            Double passengerDestinationLatitude = passengerTrajet.getDestinationLatitude();
+            Double passengerDestinationLongitude = passengerTrajet.getDestinationLongitude();
+
             // If geolocation data is available for both addresses
             if (passengerDepartureLatitude != null && passengerDepartureLongitude != null &&
                     passengerDestinationLatitude != null && passengerDestinationLongitude != null) {
                 // Search for drivers within 10 km of departure and destination
-                List<Journey> nearbyDrivers = findDriversWithinDistance(passengerJourney, 10);
+                List<Journey> nearbyDrivers = findDriversWithinDistance(passengerTrajet, 10);
 
                 // Filter drivers based on distance from destination and other conditions
                 List<Journey> matchingJourneys = new ArrayList<>();
@@ -54,11 +61,11 @@ public class JourneyService {
                             // Handle the case where any of the longitude or latitude values is null
                             trajetService.updateTrajet(trajetDriver.getTrajetID());
                         }
-                        // Fetch the latitude and longitude values for the departure and destination addresses of driver's journey
-                        Double driverDepartureLatitude = journey.getTrajet().getDepartureLatitude();
-                        Double driverDepartureLongitude = journey.getTrajet().getDepartureLongitude();
-                        Double driverDestinationLatitude = journey.getTrajet().getDestinationLatitude();
-                        Double driverDestinationLongitude = journey.getTrajet().getDestinationLongitude();
+                        // Fetch the latitude and longitude values for the departure and destination addresses of driver's trajet
+                        Double driverDepartureLatitude = trajetDriver.getDepartureLatitude();
+                        Double driverDepartureLongitude = trajetDriver.getDepartureLongitude();
+                        Double driverDestinationLatitude = trajetDriver.getDestinationLatitude();
+                        Double driverDestinationLongitude = trajetDriver.getDestinationLongitude();
 
                         // If latitude and longitude values are available for driver's addresses
                         if (driverDepartureLatitude != null && driverDepartureLongitude != null &&
@@ -91,9 +98,81 @@ public class JourneyService {
             }
         }
 
-        // If no saved journey is available or if there are no matching journeys, return an empty list
+        // If no saved trajet is available or if there are no matching journeys, return an empty list
         return Collections.emptyList();
     }
+
+//    public List<Journey> findMatchingJourneys(int passengerID) {
+//        // Retrieve the passenger's journey details (if available)
+//        Journey passengerJourney = journeyRepository.findTopByDriverUserIDOrderByJourneyCreationDateDesc(passengerID).orElse(null);
+//        Trajet trajet = passengerJourney.getTrajet();
+//
+//        if (trajet.getDepartureLongitude() == null || trajet.getDepartureLatitude() == null || trajet.getDestinationLongitude() == null || trajet.getDestinationLatitude() == null) {
+//            // Handle the case where any of the longitude or latitude values is null
+//            trajetService.updateTrajet(trajet.getTrajetID());
+//        }
+//        // If passenger has a saved journey
+//        if (passengerJourney != null) {
+//            // Fetch the geolocation data for the departure and destination addresses of passenger's journey
+//            Double passengerDepartureLatitude = passengerJourney.getTrajet().getDepartureLatitude();
+//            Double passengerDepartureLongitude = passengerJourney.getTrajet().getDepartureLongitude();
+//            Double passengerDestinationLatitude = passengerJourney.getTrajet().getDestinationLatitude();
+//            Double passengerDestinationLongitude = passengerJourney.getTrajet().getDestinationLongitude();
+//            // If geolocation data is available for both addresses
+//            if (passengerDepartureLatitude != null && passengerDepartureLongitude != null &&
+//                    passengerDestinationLatitude != null && passengerDestinationLongitude != null) {
+//                // Search for drivers within 10 km of departure and destination
+//                List<Journey> nearbyDrivers = findDriversWithinDistance(passengerJourney, 10);
+//
+//                // Filter drivers based on distance from destination and other conditions
+//                List<Journey> matchingJourneys = new ArrayList<>();
+//                for (Journey journey : nearbyDrivers) {
+//                    if (journey != null) {
+//                        Trajet trajetDriver = journey.getTrajet();
+//                        if (trajetDriver.getDepartureLongitude() == null || trajetDriver.getDepartureLatitude() == null || trajetDriver.getDestinationLongitude() == null || trajetDriver.getDestinationLatitude() == null) {
+//                            // Handle the case where any of the longitude or latitude values is null
+//                            trajetService.updateTrajet(trajetDriver.getTrajetID());
+//                        }
+//                        // Fetch the latitude and longitude values for the departure and destination addresses of driver's journey
+//                        Double driverDepartureLatitude = journey.getTrajet().getDepartureLatitude();
+//                        Double driverDepartureLongitude = journey.getTrajet().getDepartureLongitude();
+//                        Double driverDestinationLatitude = journey.getTrajet().getDestinationLatitude();
+//                        Double driverDestinationLongitude = journey.getTrajet().getDestinationLongitude();
+//
+//                        // If latitude and longitude values are available for driver's addresses
+//                        if (driverDepartureLatitude != null && driverDepartureLongitude != null &&
+//                                driverDestinationLatitude != null && driverDestinationLongitude != null) {
+//                            // Calculate relevance of the journey
+//                            double relevance = calculateRelevance(driverDepartureLatitude, driverDepartureLongitude,
+//                                    driverDestinationLatitude, driverDestinationLongitude,
+//                                    passengerDepartureLatitude, passengerDepartureLongitude,
+//                                    passengerDestinationLatitude, passengerDestinationLongitude);
+//
+//                            // Check if relevance satisfies conditions
+//                            if (relevance > 0) {
+//                                // Add the journey to the list of matching journeys
+//                                matchingJourneys.add(journey);
+//                            }
+//                        }
+//                    }
+//                }
+//                Collections.sort(matchingJourneys, Comparator.comparingDouble(journey -> {
+//                    double driverDepartureLatitude = journey.getTrajet().getDepartureLatitude();
+//                    double driverDepartureLongitude = journey.getTrajet().getDepartureLongitude();
+//                    double driverDestinationLatitude = journey.getTrajet().getDestinationLatitude();
+//                    double driverDestinationLongitude = journey.getTrajet().getDestinationLongitude();
+//                    return calculateRelevance(driverDepartureLatitude, driverDepartureLongitude,
+//                            driverDestinationLatitude, driverDestinationLongitude,
+//                            passengerDepartureLatitude, passengerDepartureLongitude,
+//                            passengerDestinationLatitude, passengerDestinationLongitude);
+//                }));
+//                return matchingJourneys;
+//            }
+//        }
+//
+//        // If no saved journey is available or if there are no matching journeys, return an empty list
+//        return Collections.emptyList();
+//    }
 
 
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
@@ -138,12 +217,12 @@ public class JourneyService {
 
         return totalRelevance;
     }
-    private List<Journey> findDriversWithinDistance(Journey passengerJourney, double distance) {
+    private List<Journey> findDriversWithinDistance(Trajet passengerTrajet, double distance) {
         // Get the departure and destination addresses of the passenger's journey
-        Double passengerDepartureLongitude = passengerJourney.getTrajet().getDepartureLongitude();
-        Double passengerDepartureLatitude  = passengerJourney.getTrajet().getDepartureLatitude();
-        Double passengerDestinationLongitude = passengerJourney.getTrajet().getDestinationLongitude();
-        Double passengerDestinationLatitude = passengerJourney.getTrajet().getDestinationLatitude();
+        Double passengerDepartureLongitude = passengerTrajet.getDepartureLongitude();
+        Double passengerDepartureLatitude  = passengerTrajet.getDepartureLatitude();
+        Double passengerDestinationLongitude = passengerTrajet.getDestinationLongitude();
+        Double passengerDestinationLatitude = passengerTrajet.getDestinationLatitude();
 
         // Get a list of all drivers
         List<Journey> allDrivers = journeyRepository.findAllDrivers();
