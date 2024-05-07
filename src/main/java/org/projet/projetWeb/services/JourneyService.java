@@ -23,20 +23,7 @@ public class JourneyService {
         this.journeyRepository = journeyRepository;
         this.trajetService = trajetService;
     }
-    public List<Trajet> findMatchingTrajets(Trajet passengerTrajet) {
-        List<Journey> matchingJourneys = findMatchingJourneys(passengerTrajet);
 
-        if (matchingJourneys.isEmpty()) {
-            return Collections.emptyList(); // Return an empty list if no matching journeys are found
-        }
-
-        // Extract the trajets from the matching journeys
-        List<Trajet> matchingTrajets = matchingJourneys.stream()
-                .map(Journey::getTrajet)
-                .collect(Collectors.toList());
-
-        return matchingTrajets;
-    }
     public List<Journey> findMatchingJourneys(Trajet passengerTrajet) {
         // If passenger has a saved trajet
         if (passengerTrajet != null) {

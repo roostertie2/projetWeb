@@ -26,9 +26,9 @@ public class JourneyController {
         this.journeyService = journeyService;
     }
     @GetMapping("/matching")
-    public ResponseEntity<List<Trajet>> findMatchingJourneys(@RequestBody Trajet trajet) {
-        List<Trajet> matchingTrajets = journeyService.findMatchingTrajets(trajet);
-        return ResponseEntity.ok(matchingTrajets);
+    public ResponseEntity<List<Journey>> findMatchingJourneys(@RequestBody Trajet trajet) {
+        List<Journey> matchingJourneys = journeyService.findMatchingJourneys(trajet);
+        return ResponseEntity.ok(matchingJourneys);
     }
     @GetMapping("/findJourneyById/{id}")
     public ResponseEntity<Journey> getJourneyById(@PathVariable int id) {
