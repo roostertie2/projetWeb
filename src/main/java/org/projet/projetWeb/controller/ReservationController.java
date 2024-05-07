@@ -40,7 +40,7 @@ public class ReservationController {
 
         // If a reservation already exists, delete it
         if (reservationExists != null) {
-            deleteReservationByJourneyId(reservationExists.get().getJourney().getJourneyID());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
 
         Reservation createdReservation = reservationRepository.save(reservation);
